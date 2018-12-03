@@ -13,13 +13,18 @@ public class BankServiceTest {
 
 		try {
 			// execute
-			bankService.createAccount("Javid", "Jamae", 19999, "123");
+			bankService.createAccount("Javid", "Jamae", 19999, "123444");
 			fail("should have thrown exception");
 		} catch (AccountCreationError e) {
 			// verify
 			assertEquals("Initial deposit must be $200.00 or greater", e.getMessage());
 		}
 
+	}
+
+	private void fail(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Test
