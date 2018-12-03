@@ -1,18 +1,18 @@
 package com.tdd.bank.service;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 public class BalanceAlertTest {
-	
+
 	@Test
 	public void balanceUnder50() {
-		
+
 		// setup
 		BalanceService balanceService = new BalanceService();
-		
 
 		try {
 			// execute
@@ -22,6 +22,20 @@ public class BalanceAlertTest {
 			// verify
 			assertEquals("Low balance alert email sent", e.getMessage());
 		}
+	}
+
+	@Test
+	public void balanceAbove50() {
+
+		// setup
+		BalanceService balanceService = new BalanceService();
+
+		// execute
+		String alert = balanceService.checkBalance(51);
+
+		// verify
+		assertNull(alert);
+
 	}
 
 }

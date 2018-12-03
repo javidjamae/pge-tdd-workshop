@@ -6,7 +6,6 @@ public class BalanceService {
 		if( balanceAmount < 50 ) {
 			throw new BalanceAlertError("Low balance alert email sent");
 		}
-		
 		return null;
 	}
 
