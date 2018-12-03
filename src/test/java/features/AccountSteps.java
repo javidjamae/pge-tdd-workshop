@@ -2,6 +2,8 @@ package features;
 
 import static org.junit.Assert.assertEquals;
 
+import com.pge.bank.service.AccountCreationError;
+import com.pge.bank.service.AccountNumberGenerator;
 import com.pge.bank.service.BankService;
 
 import cucumber.api.PendingException;
@@ -18,13 +20,14 @@ public class AccountSteps {
 	private String governmentIdNumber;
 	
 	private String actualAccountNumber;
+	private String actualErrorMessage;
 
 	@When("^I ask for my account balance$")
 	public void i_ask_for_my_account_balance() throws Exception {
 		throw new PendingException();
 	}
 
-	@Given("^a valid account number with a balance of \\$(\\d+)\\.(\\d+)$")
+	@Given("^a valid account with a balance of \\$(\\d+)\\.(\\d+)$")
 	public void aValidAccountNumberWithABalanceOf$(int dollars, int cents) throws Throwable {
 		throw new PendingException();
 	}
@@ -79,8 +82,20 @@ public class AccountSteps {
 
 	@When("^I attempt to create an account$")
 	public void iAttemptToCreateAnAccount() throws Throwable {
+		//TODO: Instead of loading a fake AccountNumberGenerator, create a real one and use it here
+		AccountNumberGenerator generator = new AccountNumberGenerator() {
+			@Override
+			public String generateAccountNumber() {
+				return "123456789";
+			}
+		};
 		BankService bankService = new BankService();
-		bankService.createAccount(firstName, lastName, depositInCents, governmentIdNumber);
+		bankService.setAccountNumberGenerator(generator);
+		try {
+			this.actualAccountNumber = bankService.createAccount(firstName, lastName, depositInCents, governmentIdNumber);
+		} catch ( AccountCreationError e ) {
+			this.actualErrorMessage = e.getMessage();
+		}
 	}
 
 	@And("^an invalid first name$")
@@ -100,7 +115,12 @@ public class AccountSteps {
 
 	@And("^the account number is valid$")
 	public void theAccountNumberIsValid() throws Throwable {
-		assertEquals("Account number must be exactly 9 digits", 9, this.governmentIdNumber.length());
+		assertEquals("Account number length incorrect:", 9, this.actualAccountNumber.length());
+	}
+
+	@And("^the error is \"([^\"]*)\"$")
+	public void theErrorIs(String errorMessage) throws Throwable {
+		assertEquals("The error message is incorrect", errorMessage, this.actualErrorMessage);
 	}
 
 }
