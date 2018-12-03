@@ -12,6 +12,9 @@ public class BankService {
 		if( governmentIdNumber.length() < 10 ) {
 			throw new AccountCreationError("Government ID cannot be shorter than 10 digits");
 		}
+		if( governmentIdNumber.length() > 10 ) {
+			throw new AccountCreationError("Government ID cannot be longer than 10 digits");
+		}
 		return null;
 	}
 
