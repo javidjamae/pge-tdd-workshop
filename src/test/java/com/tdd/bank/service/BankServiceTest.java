@@ -20,6 +20,8 @@ public class BankServiceTest {
 			assertEquals("Initial deposit must be $200.00 or greater", e.getMessage());
 		}
 	}
+	
+	
 
 	@Test
 	public void invalidGovernmentId_tooShort() {
