@@ -1,4 +1,4 @@
-package com.pge.bank.service;
+package com.tdd.bank.service;
 
 public interface AccountNumberGenerator {
 	public String generateAccountNumber();
