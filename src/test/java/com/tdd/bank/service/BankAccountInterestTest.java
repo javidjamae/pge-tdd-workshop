@@ -16,12 +16,11 @@ public class BankAccountInterestTest {
 		double principal = 10.00;
 		double amount = 0.00;
 		
-		
 
 		try {
 			// execute
 			
-			amount = principal * (1+2.3*12);
+			amount = principal * (1+2.3*12)*1;
 		
 			fail("should have thrown exception");
 		} catch (AccountCreationError e) {
