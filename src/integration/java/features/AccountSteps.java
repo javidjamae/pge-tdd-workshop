@@ -2,9 +2,9 @@ package features;
 
 import static org.junit.Assert.assertEquals;
 
-import com.pge.bank.service.AccountCreationError;
-import com.pge.bank.service.AccountNumberGenerator;
-import com.pge.bank.service.BankService;
+import com.tdd.bank.service.AccountCreationError;
+import com.tdd.bank.service.AccountNumberGenerator;
+import com.tdd.bank.service.BankService;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
@@ -122,5 +122,4 @@ public class AccountSteps {
 	public void theErrorIs(String errorMessage) throws Throwable {
 		assertEquals("The error message is incorrect", errorMessage, this.actualErrorMessage);
 	}
-
 }

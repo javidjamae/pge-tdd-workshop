@@ -1,4 +1,4 @@
-package com.pge.bank.service;
+package com.tdd.bank.service;
 
 @SuppressWarnings("serial")
 public class AccountCreationError extends Error {
