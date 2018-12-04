@@ -8,7 +8,7 @@ public class CDAccount extends Account {
 	double despositAmt;
 	String firstName;
 	String lastName;
-	Date createDate; // Date created is date deposited
+
 	String accountType;
 	double maturedCDAmount;
 
@@ -72,13 +72,7 @@ public class CDAccount extends Account {
 		this.lastName = lastName;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
-	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
 
 	public String getAccountType() {
 		return accountType;
