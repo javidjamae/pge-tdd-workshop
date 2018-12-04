@@ -77,7 +77,7 @@ public class BankService {
 		
 		if (checkingNumber == null) {
 			throw new AccountCreationError("Checking account Number cannot be blank");
-		} else if (checkingNumber.length() < 7 && checkingNumber.length() > 12) {
+		} else if (checkingNumber.length() < 7 || checkingNumber.length() > 12) {
 			throw new AccountCreationError("Checking account Number should be between 8 and 12 digits");
 		} else if (checkingNumber.startsWith("0")) {
 			throw new AccountCreationError("Checking account Number cannot start with 0");
