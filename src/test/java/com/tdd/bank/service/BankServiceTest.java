@@ -4,13 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.tdd.bank.dao.BalanceDataAccessObject;
+
 public class BankServiceTest {
 
 	@Test
 	public void depositUnder200() {
 		// setup
 		BankService bankService = new BankService();
-
+		
 		try {
 			// execute
 			bankService.createAccount("Javid", "Jamae", 19999, "1234446789");
@@ -88,6 +90,24 @@ public class BankServiceTest {
 			assertEquals("Account number too long",e.getMessage());   
 		}
 	}
+	
+	@Test
+	public void retrieveBalanceForValidAccount() throws AccountTrasactionError{
+		BankService bankService = new BankService();
+		Integer balance = null;
+		BalanceDataAccessObject balDao = new BalanceDataAccessObject() {
+			@Override
+			public Integer getBalanceForAccount(String accountNumber) {
+				return 100000;
+			}
+		};
+		bankService.setBalanceDAO(balDao);;
+
+		balance = bankService.retrieveBalance("1234567890");
+		
+		assertEquals(new Integer(100000), balance);
+	}
+	
 	
 	
 
