@@ -1,3 +1,4 @@
+@skip
 Feature: Balance alerts
   Let users know when their balance is under $50 by sending an 
   end of day alert to their primary email address
