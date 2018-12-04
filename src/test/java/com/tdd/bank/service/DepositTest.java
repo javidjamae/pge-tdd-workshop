@@ -17,8 +17,7 @@ public class DepositTest {
 			fail("should have thrown exception");
 		} catch (AccountCreationError e) {
 			// verify
-			assertEquals("Checking account Number cannot be blank",
-					e.getMessage());
+			assertEquals("Checking account Number cannot be blank", e.getMessage());
 		}
 	}
 
@@ -33,9 +32,7 @@ public class DepositTest {
 			fail("should have thrown exception");
 		} catch (AccountCreationError e) {
 			// verify
-			assertEquals(
-					"Checking account Number should be between 8 and 12 digits",
-					e.getMessage());
+			assertEquals("Checking account Number should be between 8 and 12 digits", e.getMessage());
 		}
 
 	}
@@ -51,8 +48,7 @@ public class DepositTest {
 			fail("should have thrown exception");
 		} catch (AccountCreationError e) {
 			// verify
-			assertEquals("Checking account Number cannot start with 0",
-					e.getMessage());
+			assertEquals("Checking account Number cannot start with 0", e.getMessage());
 		}
 
 	}

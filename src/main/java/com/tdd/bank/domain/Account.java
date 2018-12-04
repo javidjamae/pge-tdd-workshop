@@ -10,13 +10,15 @@ public class Account {
 	private int balanceInPennies;
 	Date createDate; // Date created is date deposited
 
+	// TODO: Get rid of default ctor
 	public Account() {
 	}
 
+	// TODO: Get rid of default ctor
 	public Account(String accountNo) {
 		this.accountNo = accountNo;
 	}
-
+	
 	public int getBalanceInPennies() {
 		return balanceInPennies;
 	}

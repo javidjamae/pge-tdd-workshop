@@ -35,7 +35,6 @@ public class BalanceAlertTest {
 
 		// verify
 		assertNull(alert);
-
 	}
 
 }

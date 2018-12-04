@@ -9,7 +9,7 @@ import com.tdd.bank.domain.AccountStatement;
 public class AccountStatementTest {
 
 	@Test
-	public void validateStatementCreation_new() {
+	public void validateStatementCreation() {
 		// setup
 		BankService bankService = new BankService();
 

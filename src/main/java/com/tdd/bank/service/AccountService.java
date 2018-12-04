@@ -4,7 +4,6 @@ import com.tdd.bank.domain.Account;
 
 public class AccountService {
 
-
 	private Account account;
 
 	private static final double INTEREST_RATE = 2.3;
@@ -12,10 +11,12 @@ public class AccountService {
 	private static final double N = 1 / 12;
 	private static final int TERM_IN_TIME = 365;
 
+	//TODO: Get rid of Account argument and make this stateless -jj
 	public AccountService(Account account) {
 		this.account = account;
 	}
 
+	//TODO: Move this into account -jj
 	public double calculateInterest() throws AccountTrasactionError {
 
 		try {
@@ -29,6 +30,7 @@ public class AccountService {
 
 	}
 
+	//TODO: Move this into account -jj
 	public double calculateInterestMonthly() throws AccountTrasactionError {
 		return 0.00;
 	}

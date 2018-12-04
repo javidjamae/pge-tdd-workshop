@@ -1,6 +1,7 @@
 package com.tdd.bank.service;
 
 import com.tdd.bank.dao.BalanceDataAccessObject;
+import com.tdd.bank.domain.AccountNumberValidator;
 import com.tdd.bank.domain.AccountStatement;
 
 public class BankService {
@@ -12,8 +13,7 @@ public class BankService {
 		this.generator = generator;
 	}
 
-	public String createAccount(String firstName, String lastName,
-			int depositInCents, String governmentIdNumber) {
+	public String createAccount(String firstName, String lastName, int depositInCents, String governmentIdNumber) {
 
 		validateGovernmentID(governmentIdNumber);
 		validateDeposit(depositInCents);
@@ -25,29 +25,25 @@ public class BankService {
 
 	private void validateDeposit(int depositInCents) {
 		if (depositInCents < 20000) {
-			throw new AccountCreationError(
-					"Initial deposit must be $200.00 or greater");
+			throw new AccountCreationError("Initial deposit must be $200.00 or greater");
 		}
 	}
 
 	private void validateGovernmentID(String governmentIdNumber) {
 		if (governmentIdNumber.length() < 10) {
-			throw new AccountCreationError(
-					"Government ID cannot be shorter than 10 digits");
+			throw new AccountCreationError("Government ID cannot be shorter than 10 digits");
 		}
 
 		if (governmentIdNumber.length() > 10) {
-			throw new AccountCreationError(
-					"Government ID cannot be longer than 10 digits");
+			throw new AccountCreationError("Government ID cannot be longer than 10 digits");
 		}
 
 		try {
 			Long.parseLong(governmentIdNumber);
 		} catch (Exception e) {
-			throw new AccountCreationError(
-					"Government ID should be valid 10 digits number");
+			throw new AccountCreationError("Government ID should be valid 10 digits number");
 		}
-	}	
+	}
 
 	private void validateFirstName(String firstName) {
 		if (firstName == null) {
@@ -68,13 +64,14 @@ public class BankService {
 			throw new AccountCreationError("Last name is too long");
 		}
 	}
-	
+
 	/**
 	 * validating checking account number(between 8 to 12, cannot start with 0)
+	 * 
 	 * @param checkingNumber
 	 */
-	private void validateCheckingNumber(String checkingNumber){
-		
+	// TODO: Move this logic into the extracted Check model
+	private void validateCheckingNumber(String checkingNumber) {
 		if (checkingNumber == null) {
 			throw new AccountCreationError("Checking account Number cannot be blank");
 		} else if (checkingNumber.length() < 7 || checkingNumber.length() > 12) {
@@ -82,18 +79,16 @@ public class BankService {
 		} else if (checkingNumber.startsWith("0")) {
 			throw new AccountCreationError("Checking account Number cannot start with 0");
 		}
-		
-		try{
+
+		try {
 			Long.parseLong(checkingNumber);
-		}
-		catch(NumberFormatException nfe){
+		} catch (NumberFormatException nfe) {
 			throw new AccountCreationError("Checking account Number should be Numeric");
-		}		
-		
+		}
 	}
-		
-	
-	public void depositCheck(String customerAccoutNumber, String checkingNumber,long routingNumber, String date) {
+
+	// TODO: Extract a Check model
+	public void depositCheck(String customerAccoutNumber, String checkingNumber, long routingNumber, String date) {
 		validateCheckingNumber(checkingNumber);
 	}
 
@@ -109,32 +104,14 @@ public class BankService {
 		throw new Error("not yet implemented");
 	}
 
-	public Integer retrieveBalance(String accountNumber) throws AccountTrasactionError {
-		
-		Integer balance = null;
-		if(accountNumber == null){
-			throw new AccountTrasactionError("Account number is null");
-		}
-		if(accountNumber.length()<10){
-			throw new AccountTrasactionError("Account number too short");
-		}
-		if(accountNumber.length()>10){
-			throw new AccountTrasactionError("Account number too long");
-		}
-		
-		balance = balanceDAO.getBalanceForAccount(accountNumber);
-		
-		return balance;
-	}
-	
-
-	public AccountStatement generateStatement(String acNum, String mon, String year) {
-		
-		AccountStatement accStatement = new AccountStatement(acNum,mon,year);
-		
-		return accStatement;
+	public Integer retrieveBalance(String accountNumber) {
+		AccountNumberValidator.validateAccountNumber(accountNumber);
+		return balanceDAO.getBalanceForAccount(accountNumber);
 	}
 
+	public AccountStatement generateStatement(String accountNumber, String month, String year) {
+		return new AccountStatement(accountNumber, month, year);
+	}
 
 	public BalanceDataAccessObject getBalanceDAO() {
 		return balanceDAO;

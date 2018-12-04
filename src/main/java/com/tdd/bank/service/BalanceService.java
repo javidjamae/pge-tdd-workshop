@@ -1,6 +1,5 @@
 package com.tdd.bank.service;
 
-
 public class BalanceService {
 	
 	public String checkBalance(int balanceAmount) {
