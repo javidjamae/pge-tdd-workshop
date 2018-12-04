@@ -2,3 +2,5 @@
 
 - Eclipse
 - Maven
+- JPA
+- VIM
