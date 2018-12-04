@@ -1,13 +1,33 @@
 package com.tdd.bank.domain;
 
+import java.util.Date;
+
 import com.tdd.bank.service.AccountTrasactionError;
 
 public class Account {
 	
+	private String accountNo;
 	private int balanceInPennies;
-
+	Date createDate; // Date created is date deposited
+	
+	public Account(){
+		
+	}
+	public Account(String accountNo){
+		this.accountNo= accountNo;
+	}
 	public int getBalanceInPennies() {
 		return balanceInPennies;
+	}
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+	public void setBalanceInPennies(int balanceInPennies) {
+		this.balanceInPennies = balanceInPennies;
 	}
 
 	public void deposit(int deposit) throws AccountTrasactionError {
@@ -28,5 +48,11 @@ public class Account {
 		
 		this.balanceInPennies = this.balanceInPennies - withdrawalAmount;
 	}
-	
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 }

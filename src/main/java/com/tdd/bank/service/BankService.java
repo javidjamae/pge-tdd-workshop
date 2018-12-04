@@ -1,6 +1,7 @@
 package com.tdd.bank.service;
 
 import com.tdd.bank.dao.BalanceDataAccessObject;
+import com.tdd.bank.domain.AccountStatement;
 
 public class BankService {
 
@@ -125,6 +126,15 @@ public class BankService {
 		
 		return balance;
 	}
+	
+
+	public AccountStatement generateStatement(String acNum, String mon, String year) {
+		
+		AccountStatement accStatement = new AccountStatement(acNum,mon,year);
+		
+		return accStatement;
+	}
+
 
 	public BalanceDataAccessObject getBalanceDAO() {
 		return balanceDAO;
