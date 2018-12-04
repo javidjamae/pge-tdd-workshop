@@ -1,11 +1,79 @@
 package com.tdd.bank.service;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.Date;
 
 import org.junit.Test;
 
+import com.tdd.bank.domain.CDAccount;
+
 public class CertificateOfDepositTest {
+	
+	@Test
+	public void checkDepositeAmountToCD(){
+		//setup
+		CDAccount account = new CDAccount();
+		account.setAccountType("Savings");
+		account.setCreateDate(new Date());
+		account.setDespositAmt(100.00);
+		CertificateOfDepositService codService = new CertificateOfDepositService();
+		
+		//Execute
+		try{
+			codService.depositeIntoCD(account);
+			fail("Should throw Exception");
+		}catch(CODError ex){
+			assertEquals("Invalid Account type",ex.getMessage());
+		}
+		
+	}
+	
+	
+	@Test
+	public void checkDepositeAmountToCD_NOT_1000(){
+		//setup
+		CDAccount account = new CDAccount();
+		account.setAccountType("CD");
+		account.setCreateDate(new Date());
+		account.setDespositAmt(100.00);
+		CertificateOfDepositService codService = new CertificateOfDepositService();
+		
+		//Execute
+		try{
+			codService.depositeIntoCD(account);
+			fail("Should throw Exception");
+		}catch(CODError ex){
+			assertEquals("Invalid Amount deposited",ex.getMessage());
+		}
+	}
+	
+	@Test
+	public void checkDepositeAmountToCD_1000(){
+		//setup
+		CDAccount account = new CDAccount();
+		account.setAccountType("CD");
+		account.setCreateDate(new Date());
+		account.setDespositAmt(1000.00);
+		CertificateOfDepositService codService = new CertificateOfDepositService();
+		
+		//Execute
+			assertEquals(true, codService.depositeIntoCD(account));
+	}
+	
+	@Test
+	public void checkDepositeAmountToCD_5000(){
+		//setup
+		CDAccount account = new CDAccount();
+		account.setAccountType("CD");
+		account.setCreateDate(new Date());
+		account.setDespositAmt(5000.00);
+		CertificateOfDepositService codService = new CertificateOfDepositService();
+		
+		//Execute
+			assertEquals(true, codService.depositeIntoCD(account));
+	}
 	
 	@Test
 	public void invalidAmount(){

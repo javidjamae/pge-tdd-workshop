@@ -1,5 +1,7 @@
 package com.tdd.bank.service;
 
+import com.tdd.bank.domain.CDAccount;
+
 public class CertificateOfDepositService {
 
 	public int calculateDeposit(int amt, int months) {
@@ -20,6 +22,16 @@ public class CertificateOfDepositService {
 		}else{
 			throw new CODError("Invalid Term for Certificate of Deposit");
 		}
+	}
+
+	public boolean depositeIntoCD(CDAccount account) throws CODError {
+		if(!account.getAccountType().equals("CD")){
+			throw new CODError("Invalid Account type");
+		}
+		if(account.getDespositAmt()!=1000.00 && account.getDespositAmt()!=5000.00){
+			throw new CODError("Invalid Amount deposited");
+		}
+		return true;
 	}
 
 }
