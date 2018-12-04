@@ -13,48 +13,26 @@ public class DepositTest {
 
 		try {
 			// execute
-			bankService.depositCheck("0123", null, 213L, "12/04/2018");
+			bankService.depositCheck("0123", null,213L, "12/04/2018");
 			fail("should have thrown exception");
 		} catch (AccountCreationError e) {
 			// verify
-			assertEquals("Checking account Number cannot be blank",
-					e.getMessage());
+			assertEquals("Checking account Number cannot be blank", e.getMessage());
 		}
-	}
 
-	@Test
-	public void checkCheckingNumber_Is_valid_length() {
+}
+	public void checkDepositAmount() {
 		// setup
-		BankService bankService = new BankService();
 
 		try {
 			// execute
-			bankService.depositCheck("0123", "1231", 213L, "12/04/2018");
+			 
 			fail("should have thrown exception");
 		} catch (AccountCreationError e) {
 			// verify
-			assertEquals(
-					"Checking account Number should be between 8 and 12 digits",
-					e.getMessage());
+			assertEquals("Deposit fail", e.getMessage());
 		}
 
-	}
-
-	@Test
-	public void checkCheckingNumber_startWithZero() {
-		// setup
-		BankService bankService = new BankService();
-
-		try {
-			// execute
-			bankService.depositCheck("0123", "01235123", 213L, "12/04/2018");
-			fail("should have thrown exception");
-		} catch (AccountCreationError e) {
-			// verify
-			assertEquals("Checking account Number cannot start with 0",
-					e.getMessage());
-		}
-
-	}
-
+}
+	
 }
