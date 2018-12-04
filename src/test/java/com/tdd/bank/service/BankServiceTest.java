@@ -52,5 +52,43 @@ public class BankServiceTest {
 			assertEquals("Government ID cannot be longer than 10 digits", e.getMessage());
 		}
 	}
+	
+	@Test
+	public void retrieveBalanceAcNumTooShort(){
+		BankService bankService = new BankService();
+		try{
+			bankService.retrieveBalance("123");
+			fail("Retrieve Balance Should have thrown error");
+		}
+		catch(AccountTrasactionError e){
+			assertEquals("Account number too short",e.getMessage());   
+		}
+	}
+	
+	@Test
+	public void retrieveBalanceAcNumNull(){
+		BankService bankService = new BankService();
+		try{
+			bankService.retrieveBalance(null);
+			fail("Retrieve Balance Should have thrown error");
+		}
+		catch(AccountTrasactionError e){
+			assertEquals("Account number is null",e.getMessage());   
+		}
+	}
+	
+	@Test
+	public void retrieveBalanceAcNumTooLong(){
+		BankService bankService = new BankService();
+		try{
+			bankService.retrieveBalance("446444646464646466");
+			fail("Retrieve Balance Should have thrown error");
+		}
+		catch(AccountTrasactionError e){
+			assertEquals("Account number too long",e.getMessage());   
+		}
+	}
+	
+	
 
 }

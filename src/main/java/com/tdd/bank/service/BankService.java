@@ -77,4 +77,17 @@ public class BankService {
 		throw new Error("not yet implemented");
 	}
 
+	public int retrieveBalance(String accountNumber) throws AccountTrasactionError {
+		if(accountNumber == null){
+			throw new AccountTrasactionError("Account number is null");
+		}
+		if(accountNumber.length()<10){
+			throw new AccountTrasactionError("Account number too short");
+		}
+		if(accountNumber.length()>10){
+			throw new AccountTrasactionError("Account number too long");
+		}
+		return 0;
+	}
+
 }
