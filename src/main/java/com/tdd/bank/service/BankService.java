@@ -1,8 +1,11 @@
 package com.tdd.bank.service;
 
+import com.tdd.bank.dao.BalanceDataAccessObject;
+
 public class BankService {
 
 	private AccountNumberGenerator generator;
+	private BalanceDataAccessObject balanceDAO;
 
 	public void setAccountNumberGenerator(AccountNumberGenerator generator) {
 		this.generator = generator;
@@ -103,6 +106,32 @@ public class BankService {
 
 	public void withdraw(String actualAccountNumber, int i) {
 		throw new Error("not yet implemented");
+	}
+
+	public Integer retrieveBalance(String accountNumber) throws AccountTrasactionError {
+		
+		Integer balance = null;
+		if(accountNumber == null){
+			throw new AccountTrasactionError("Account number is null");
+		}
+		if(accountNumber.length()<10){
+			throw new AccountTrasactionError("Account number too short");
+		}
+		if(accountNumber.length()>10){
+			throw new AccountTrasactionError("Account number too long");
+		}
+		
+		balance = balanceDAO.getBalanceForAccount(accountNumber);
+		
+		return balance;
+	}
+
+	public BalanceDataAccessObject getBalanceDAO() {
+		return balanceDAO;
+	}
+
+	public void setBalanceDAO(BalanceDataAccessObject balanceDAO) {
+		this.balanceDAO = balanceDAO;
 	}
 
 }
