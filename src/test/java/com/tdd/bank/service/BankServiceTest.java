@@ -96,12 +96,12 @@ public class BankServiceTest {
 		BankService bankService = new BankService();
 		Integer balance = null;
 		BalanceDataAccessObject balDao = new BalanceDataAccessObject() {
-			@Override
+			//@Override
 			public Integer getBalanceForAccount(String accountNumber) {
 				return 100000;
 			}
 		};
-		bankService.setBalanceDAO(balDao);;
+		bankService.setBalanceDAO(balDao);
 
 		balance = bankService.retrieveBalance("1234567890");
 		
