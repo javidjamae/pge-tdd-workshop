@@ -1,10 +1,10 @@
 Feature: User can retrieve account balance
   By providing an account number, the user can retreive their account balance
-
+  
   Scenario: Valid account, returns balance
     Given a valid account with a balance of $10.23
     When I ask for my account balance
-    Then the balance is $10.23
+    Then the account balance is $10.23
     
   Scenario: Invalid account number, throws exception
   		Given an invalid account number
