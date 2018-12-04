@@ -65,4 +65,16 @@ public class BankService {
 		}
 	}
 
+	public int getBalanceForAccount(String accountNumber) {
+		throw new Error("not yet implemented");
+	}
+
+	public void deposit(String accountNumber, int amountInPennies) {
+		throw new Error("not yet implemented");
+	}
+
+	public void withdraw(String actualAccountNumber, int i) {
+		throw new Error("not yet implemented");
+	}
+
 }
