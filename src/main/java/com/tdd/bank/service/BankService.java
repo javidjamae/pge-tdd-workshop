@@ -73,7 +73,7 @@ public class BankService {
 		throw new Error("not yet implemented");
 	}
 
-	public void withdraw(String actualAccountNumber, int i) {
+	public void withdraw(String accountNumber, int amountInPennies) {
 		throw new Error("not yet implemented");
 	}
 
