@@ -43,4 +43,47 @@ public class AccountTest {
 			assertEquals("Deposit amount must be positive", error.getMessage());
 		}
 	}
+	
+	@Test 
+	public void withdrawMoreThanBalance() throws AccountTrasactionError {
+		// setup
+		Account account = new Account();
+		account.deposit(10000);
+		
+		// execute
+		try {
+			account.withdraw(20000);
+			fail("Should have thrown exception");
+		} catch (AccountTrasactionError error) {
+			assertEquals("Nice try. Not enough balance to cover the withdrawal", error.getMessage());
+			assertEquals(10000, account.getBalanceInPennies());
+		}
+	}
+
+	@Test 
+	public void withdrawValidAmount() throws AccountTrasactionError {
+		// setup
+		Account account = new Account();
+		account.deposit(10000);
+		
+		// execute
+		account.withdraw(5000);
+		assertEquals(5000, account.getBalanceInPennies());
+	}
+
+	@Test 
+	public void withdrawNegativeAmount() throws AccountTrasactionError {
+		// setup
+		Account account = new Account();
+		account.deposit(10000);
+		
+		// execute
+		try {
+			account.withdraw(-5000);
+			fail("Should have thrown exception");
+		} catch (AccountTrasactionError error) {
+			assertEquals("Nice try again. Withdrawal amount cannot be negative", error.getMessage());
+			assertEquals(10000, account.getBalanceInPennies());
+		}
+	}
 }

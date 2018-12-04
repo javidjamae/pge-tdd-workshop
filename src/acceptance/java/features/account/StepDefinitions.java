@@ -1,7 +1,8 @@
-package features;
+package features.account;
 
 import static org.junit.Assert.assertEquals;
 
+import com.tdd.bank.domain.InvalidAccountError;
 import com.tdd.bank.service.AccountCreationError;
 import com.tdd.bank.service.AccountNumberGenerator;
 import com.tdd.bank.service.BankService;
@@ -12,7 +13,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class AccountSteps {
+public class StepDefinitions {
 	
 	private String firstName;
 	private String lastName;
@@ -21,25 +22,46 @@ public class AccountSteps {
 	
 	private String actualAccountNumber;
 	private String actualErrorMessage;
+	private int actualBalance;
 
 	@When("^I ask for my account balance$")
 	public void i_ask_for_my_account_balance() throws Exception {
-		throw new PendingException();
+		try {
+			this.actualBalance = new BankService().getBalanceForAccount(actualAccountNumber);
+		} catch( InvalidAccountError e) {
+			this.actualErrorMessage = e.getMessage();
+		}
 	}
 
-	@Given("^a valid account with a balance of \\$(\\d+)\\.(\\d+)$")
-	public void aValidAccountNumberWithABalanceOf$(int dollars, int cents) throws Throwable {
-		throw new PendingException();
+	@Given("^a valid account number$")
+	public void aValidAccountNumber() throws Throwable {
+		createValidAccount();
 	}
 
-	@Then("^an invalid account error occurs$")
-	public void anInvalidAccountErrorOccurs() throws Throwable {
-		throw new PendingException();
+	@Given("^an invalid account number$")
+	public void anInvalidAccountNumber() throws Throwable {
+		this.actualAccountNumber = "3";
 	}
 
-	@Then("^the balance is \\$(\\d+)\\.(\\d+)$")
-	public void theBalanceIs$(int dollars, int cents) throws Throwable {
-		throw new PendingException();
+	@Given("^an non-existent account number$")
+	public void aNonExistentAccountNumber() throws Throwable {
+		this.actualAccountNumber = "4567890123";
+	}
+	
+	@And("^a balance of \\$(\\d+)\\.(\\d+)$")
+	public void aBalanceOf(int dollars, int cents) throws Throwable {
+		int currentBalance = new BankService().getBalanceForAccount(actualAccountNumber);
+		int intendedBalance = dollars * 100 + cents;
+		if ( currentBalance > intendedBalance ) {
+			new BankService().withdraw(actualAccountNumber, currentBalance - intendedBalance );
+		} else if (currentBalance < intendedBalance) {
+			new BankService().deposit(actualAccountNumber, currentBalance - intendedBalance);
+		}
+	}
+
+	@Then("^the account balance is \\$(\\d+)\\.(\\d+)$")
+	public void theAccountBalanceIs(int dollars, int cents) throws Throwable {
+		assertEquals("Incorrect account balance", dollars*100 + cents, actualBalance);
 	}
 
 	@Given("^an invalid government id number$")
@@ -82,22 +104,8 @@ public class AccountSteps {
 
 	@When("^I attempt to create an account$")
 	public void iAttemptToCreateAnAccount() throws Throwable {
-		//TODO: Instead of loading a fake AccountNumberGenerator, create a real one and use it here
-		AccountNumberGenerator generator = new AccountNumberGenerator() {
-			@Override
-			public String generateAccountNumber() {
-				return "123456789";
-			}
-		};
-		BankService bankService = new BankService();
-		bankService.setAccountNumberGenerator(generator);
-		try {
-			this.actualAccountNumber = bankService.createAccount(firstName, lastName, depositInCents, governmentIdNumber);
-		} catch ( AccountCreationError e ) {
-			this.actualErrorMessage = e.getMessage();
-		}
+		createAccount();
 	}
-	
 
 	@And("^an invalid first name$")
 	public void anInvalidFirstName() throws Throwable {
@@ -119,8 +127,35 @@ public class AccountSteps {
 		assertEquals("Account number length incorrect:", 9, this.actualAccountNumber.length());
 	}
 
+	@Then("^an error occurs: \"([^\"]*)\"$")
 	@And("^the error is \"([^\"]*)\"$")
 	public void theErrorIs(String errorMessage) throws Throwable {
-		assertEquals("The error message is incorrect", errorMessage, this.actualErrorMessage);
+		if( errorMessage.length() > 0 ) {
+			assertEquals("The error message is incorrect", errorMessage, this.actualErrorMessage);
+		}
+	}
+
+	private void createValidAccount() {
+		this.firstName = "Javid";
+		this.lastName = "Jamae";
+		this.governmentIdNumber = "5678901234";
+		this.depositInCents = 20000;
+	}
+	
+	private void createAccount() {
+		//TODO: Instead of loading a fake AccountNumberGenerator, create a real one and use it here
+		AccountNumberGenerator generator = new AccountNumberGenerator() {
+			@Override
+			public String generateAccountNumber() {
+				return "123456789";
+			}
+		};
+		BankService bankService = new BankService();
+		bankService.setAccountNumberGenerator(generator);
+		try {
+			this.actualAccountNumber = bankService.createAccount(firstName, lastName, depositInCents, governmentIdNumber);
+		} catch ( AccountCreationError e ) {
+			this.actualErrorMessage = e.getMessage();
+		}
 	}
 }
