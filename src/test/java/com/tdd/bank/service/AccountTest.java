@@ -13,7 +13,7 @@ public class AccountTest {
 	public void checkBalanceAfterDeposit() throws AccountTrasactionError {
 		// setup
 		Account account = new Account();
-		account.addDepositBalanceInPennies(10000);
+		account.deposit(10000);
 		
 		// execute and verify
 		assertEquals(10000, account.getBalanceInPennies());
@@ -23,9 +23,9 @@ public class AccountTest {
 	public void checkBalanceAfter2Deposits() throws AccountTrasactionError {
 		// setup
 		Account account = new Account();
-		account.addDepositBalanceInPennies(10000);
+		account.deposit(10000);
 		
-		account.addDepositBalanceInPennies(20000);
+		account.deposit(20000);
 		
 		// execute and verify
 		assertEquals(30000, account.getBalanceInPennies());
@@ -37,7 +37,7 @@ public class AccountTest {
 		Account account = new Account();
 		try {
 		// execute
-			account.addDepositBalanceInPennies(-10000);
+			account.deposit(-10000);
 			fail("Should have thrown exception");
 		} catch (AccountTrasactionError error) {
 			assertEquals("Deposit amount must be positive", error.getMessage());

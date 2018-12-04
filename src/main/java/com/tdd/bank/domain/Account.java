@@ -10,7 +10,7 @@ public class Account {
 		return balanceInPennies;
 	}
 
-	public void addDepositBalanceInPennies(int deposit) throws AccountTrasactionError {
+	public void deposit(int deposit) throws AccountTrasactionError {
 		if (deposit  < 0) {
 			throw new AccountTrasactionError("Deposit amount must be positive");
 		}

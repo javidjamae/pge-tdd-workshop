@@ -10,7 +10,6 @@ public enum CODENUM {
 	}
 
 	public int getValue() {
-		// TODO Auto-generated method stub
 		return this.months;
 	}
 
