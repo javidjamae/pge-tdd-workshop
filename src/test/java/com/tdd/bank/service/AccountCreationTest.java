@@ -57,7 +57,7 @@ public class AccountCreationTest {
 		// setup
 		BankService bankService = new BankService();
 		AccountNumberGenerator generator = new AccountNumberGenerator() {
-			@Override
+			//@Override
 			public String generateAccountNumber() {
 				return "987654321";
 			}

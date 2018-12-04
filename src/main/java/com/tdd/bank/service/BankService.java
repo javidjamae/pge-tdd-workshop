@@ -1,8 +1,11 @@
 package com.tdd.bank.service;
 
+import com.tdd.bank.dao.BalanceDataAccessObject;
+
 public class BankService {
 
 	private AccountNumberGenerator generator;
+	private BalanceDataAccessObject balanceDAO;
 
 	public void setAccountNumberGenerator(AccountNumberGenerator generator) {
 		this.generator = generator;
@@ -43,7 +46,7 @@ public class BankService {
 			throw new AccountCreationError(
 					"Government ID should be valid 10 digits number");
 		}
-	}
+	}	
 
 	private void validateFirstName(String firstName) {
 		if (firstName == null) {
@@ -64,6 +67,34 @@ public class BankService {
 			throw new AccountCreationError("Last name is too long");
 		}
 	}
+	
+	/**
+	 * validating checking account number(between 8 to 12, cannot start with 0)
+	 * @param checkingNumber
+	 */
+	private void validateCheckingNumber(String checkingNumber){
+		
+		if (checkingNumber == null) {
+			throw new AccountCreationError("Checking account Number cannot be blank");
+		} else if (checkingNumber.length() < 7 && checkingNumber.length() > 12) {
+			throw new AccountCreationError("Checking account Number should be between 8 and 12 digits");
+		} else if (checkingNumber.startsWith("0")) {
+			throw new AccountCreationError("Checking account Number cannot start with 0");
+		}
+		
+		try{
+			Long.parseLong(checkingNumber);
+		}
+		catch(NumberFormatException nfe){
+			throw new AccountCreationError("Checking account Number should be Numeric");
+		}		
+		
+	}
+		
+	
+	public void depositCheck(String customerAccoutNumber, String checkingNumber,long routingNumber, String date) {
+		validateCheckingNumber(checkingNumber);
+	}
 
 	public int getBalanceForAccount(String accountNumber) {
 		throw new Error("not yet implemented");
@@ -75,6 +106,32 @@ public class BankService {
 
 	public void withdraw(String accountNumber, int amountInPennies) {
 		throw new Error("not yet implemented");
+	}
+
+	public Integer retrieveBalance(String accountNumber) throws AccountTrasactionError {
+		
+		Integer balance = null;
+		if(accountNumber == null){
+			throw new AccountTrasactionError("Account number is null");
+		}
+		if(accountNumber.length()<10){
+			throw new AccountTrasactionError("Account number too short");
+		}
+		if(accountNumber.length()>10){
+			throw new AccountTrasactionError("Account number too long");
+		}
+		
+		balance = balanceDAO.getBalanceForAccount(accountNumber);
+		
+		return balance;
+	}
+
+	public BalanceDataAccessObject getBalanceDAO() {
+		return balanceDAO;
+	}
+
+	public void setBalanceDAO(BalanceDataAccessObject balanceDAO) {
+		this.balanceDAO = balanceDAO;
 	}
 
 }
