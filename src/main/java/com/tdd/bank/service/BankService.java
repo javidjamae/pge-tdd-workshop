@@ -43,7 +43,7 @@ public class BankService {
 			throw new AccountCreationError(
 					"Government ID should be valid 10 digits number");
 		}
-	}
+	}	
 
 	private void validateFirstName(String firstName) {
 		if (firstName == null) {
@@ -63,6 +63,34 @@ public class BankService {
 		} else if (lastName.length() > 25) {
 			throw new AccountCreationError("Last name is too long");
 		}
+	}
+	
+	/**
+	 * validating checking account number(between 8 to 12, cannot start with 0)
+	 * @param checkingNumber
+	 */
+	private void validateCheckingNumber(String checkingNumber){
+		
+		if (checkingNumber == null) {
+			throw new AccountCreationError("Checking account Number cannot be blank");
+		} else if (checkingNumber.length() < 7 && checkingNumber.length() > 12) {
+			throw new AccountCreationError("Checking account Number should be between 8 and 12 digits");
+		} else if (checkingNumber.startsWith("0")) {
+			throw new AccountCreationError("Checking account Number cannot start with 0");
+		}
+		
+		try{
+			Long.parseLong(checkingNumber);
+		}
+		catch(NumberFormatException nfe){
+			throw new AccountCreationError("Checking account Number should be Numeric");
+		}		
+		
+	}
+		
+	
+	public void depositCheck(String customerAccoutNumber, String checkingNumber,long routingNumber, String date) {
+		validateCheckingNumber(checkingNumber);
 	}
 
 	public int getBalanceForAccount(String accountNumber) {
