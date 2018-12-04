@@ -1,7 +1,8 @@
-package features;
+package features.account;
 
 import static org.junit.Assert.assertEquals;
 
+import com.tdd.bank.domain.Account;
 import com.tdd.bank.service.AccountCreationError;
 import com.tdd.bank.service.AccountNumberGenerator;
 import com.tdd.bank.service.BankService;
@@ -18,18 +19,21 @@ public class AccountSteps {
 	private String lastName;
 	private int depositInCents;
 	private String governmentIdNumber;
+	private Account account;
 	
 	private String actualAccountNumber;
 	private String actualErrorMessage;
+	private int actualBalance;
 
 	@When("^I ask for my account balance$")
 	public void i_ask_for_my_account_balance() throws Exception {
-		throw new PendingException();
+		this.actualBalance = account.getBalanceInPennies();
 	}
 
 	@Given("^a valid account with a balance of \\$(\\d+)\\.(\\d+)$")
-	public void aValidAccountNumberWithABalanceOf$(int dollars, int cents) throws Throwable {
-		throw new PendingException();
+	public void aValidAccountWithABalanceOf(int dollars, int cents) throws Throwable {
+		this.account = new Account();
+		account.deposit(dollars * 100 + cents);
 	}
 
 	@Then("^an invalid account error occurs$")
@@ -37,9 +41,9 @@ public class AccountSteps {
 		throw new PendingException();
 	}
 
-	@Then("^the balance is \\$(\\d+)\\.(\\d+)$")
-	public void theBalanceIs$(int dollars, int cents) throws Throwable {
-		throw new PendingException();
+	@Then("^the account balance is \\$(\\d+)\\.(\\d+)$")
+	public void theAccountBalanceIs(int dollars, int cents) throws Throwable {
+		assertEquals("Incorrect account balance", dollars*100 + cents, actualBalance);
 	}
 
 	@Given("^an invalid government id number$")
@@ -121,6 +125,8 @@ public class AccountSteps {
 
 	@And("^the error is \"([^\"]*)\"$")
 	public void theErrorIs(String errorMessage) throws Throwable {
-		assertEquals("The error message is incorrect", errorMessage, this.actualErrorMessage);
+		if( errorMessage.length() > 0 ) {
+			assertEquals("The error message is incorrect", errorMessage, this.actualErrorMessage);
+		}
 	}
 }

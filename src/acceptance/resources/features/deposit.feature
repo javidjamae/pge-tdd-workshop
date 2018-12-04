@@ -1,3 +1,4 @@
+@skip
 Feature: Deposit into account
   I should be able to deposit money into an account by check or by cash
 

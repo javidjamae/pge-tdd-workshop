@@ -49,7 +49,7 @@ Feature: Account Creation
     Examples:
       | govtIdNumber   | successStatus | error                                          |
       | 3              | unsuccessful  | Government ID cannot be shorter than 10 digits |
-      | 34567890123    | unsuccessful  | Government ID cannot be shorter than 10 digits |
+      | 34567890123    | unsuccessful  | Government ID cannot be longer than 10 digits  |
       | 1234567890     | unsuccessful  | Government ID cannot start with a 1            |
       | 0234567890     | unsuccessful  | Government ID cannot start with a 0            |
       | 9234567890     | unsuccessful  | Government ID cannot start with a 9            |

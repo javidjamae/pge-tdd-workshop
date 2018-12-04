@@ -1,5 +1,5 @@
-Feature: User can retrieve account balance
-  By providing an account number, the user can retreive their account balance
+Feature: As a bank teller I can retrieve an account balance
+  By providing an account number, a bank teller can retreive a customer's account balance
   
   Scenario: Valid account, returns balance
     Given a valid account with a balance of $10.23

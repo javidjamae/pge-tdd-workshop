@@ -1,3 +1,4 @@
+@skip
 Feature: Account number generation
   The rules behind account number generation
   
