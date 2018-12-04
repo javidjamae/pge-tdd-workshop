@@ -2,12 +2,24 @@ package com.tdd.bank.service;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
 
 import com.tdd.bank.dao.BalanceDataAccessObject;
 
 public class BankServiceTest {
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+    
+	@Mock BalanceDataAccessObject balDao;
+	
 	@Test
 	public void depositUnder200() {
 		// setup
@@ -94,13 +106,9 @@ public class BankServiceTest {
 	@Test
 	public void retrieveBalanceForValidAccount() throws AccountTrasactionError{
 		BankService bankService = new BankService();
+
+		when( balDao.getBalanceForAccount( eq("1234567890") ) ).thenReturn(100000);
 		
-		BalanceDataAccessObject balDao = new BalanceDataAccessObject() {
-			@Override
-			public Integer getBalanceForAccount(String accountNumber) {
-				return 100000;
-			}
-		};
 		bankService.setBalanceDAO(balDao);;
 
 		Integer balance = bankService.retrieveBalance("1234567890");
